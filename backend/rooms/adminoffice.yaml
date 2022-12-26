@@ -1,0 +1,22 @@
+name: Admin Office
+description: |
+  There are several cubicles in this area. One of the cubicles has two office
+  chairs. In another cubicle you find an unlocked computer with an open
+  program window. There is a *post-it* on the computer.  On the screen there are two buttons,
+  one to access the *program* and the other play a *screensaver*.
+
+items:
+  post-it: |
+    The post-it looks a bit old. There are only two words written
+    on it ‘admin/admin’. ‘What could this mean?’, you wonder!
+  program: |
+    The program prompts you with a login window. The username ‘admin’ has been filled in.
+    If you were the Grinch, you would have searched for the password or guessed it …
+    Test a password using [test <password>] where <password> is a value you believe is the admin password.
+  screensaver: |
+    A colorful Christmas animation plays. You are affected by seeing this, and more intent on preventing
+    the Grinch from succeeding.
+directions:
+  w: youroffice
+  s: newsroom
+  n: skr

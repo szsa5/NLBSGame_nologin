@@ -2,7 +2,9 @@
 
 import logging
 import os
+import json
 import string
+import logging
 from concurrent import futures
 
 import grinchbase_pb2
@@ -18,11 +20,14 @@ def preload_gamedata(fn):
                         for (k, v) in context.invocation_metadata()])
 
         if "x-game-auth" in headers:
-            gameid = headers["x-game-auth"]
 
-            if len(gameid) == 32 and all(c in string.hexdigits
-                                         for c in gameid):
-                kwargs["gamedata"] = gameid
+            gameid = headers["x-game-auth"]
+            #if len(gameid) == 32 and all(c in string.hexdigits
+            #                            for c in gameid):
+
+
+
+            kwargs["gamedata"] = gameid
 
         return fn(self, *args, **kwargs)
 
@@ -39,14 +44,42 @@ class GrinchBaseServer(grinchbase_pb2_grpc.GrinchBaseServicer):
                                            type="text",
                                            extra="",
                                            text="Something went wrong")
-
         if gamedata is None:
             return res
 
         try:
-            statefile = os.path.join("states", f"{gamedata}.json")
-            tbag = TBAG(statefile,gamedata)
-            output = tbag.handle(request.text)
+            resethappened = False
+            email = gamedata
+
+            #check for reset
+            if(gamedata.split('^')[0] == "reset"):
+                resethappened = True
+                usertoreset = gamedata.split('^')[1]
+                actualuser = gamedata.split('^')[2]
+                gamedata = actualuser
+
+                #remove user json
+                resetpath =  os.path.join("persistent", f"{usertoreset}.json")
+                os.remove(resetpath)
+
+            userfile = os.path.join("data", "users.json")
+            f = open(userfile)
+            users = json.load(f)
+            f.close()
+
+            #get user role
+            for user in users:
+                if user["email"] == email:
+                    role = user["role"]
+                    break
+
+            statefile = os.path.join("persistent", f"{email}.json")
+            tbag = TBAG(statefile,role,email)
+            output = tbag.handle(request.text) +"^"
+
+            if resethappened:
+                output+="reset"
+
             outtype = "text"
             extra = ""
             if tbag.setName:

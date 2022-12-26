@@ -1,0 +1,9 @@
+name: Trading Room Entrance
+description: |
+  As a trader, you need to generate the daily financial trading report. Access to the trading room is
+  limited to authorized personnel. This is a good security measure to prevent outsiders like the Grinch
+  from entering such a key area. You can access the trading room with [use badge].
+
+directions:
+  e: youroffice
+  n: reception

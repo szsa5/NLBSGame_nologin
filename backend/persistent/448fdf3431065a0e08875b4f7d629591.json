@@ -1,0 +1,152 @@
+{
+    "adminoffice_loggedin": "false",
+    "adminoffice_password": "admin",
+    "currentfrequency": "88.0",
+    "email_decided": "false",
+    "facing": null,
+    "flag": "AOTW{I_am_th3_Grinch_that_stol3_Xmas_and_Im_s0rry}",
+    "inventory": {
+        "temporary badge": "A temporary badge with your name: asd"
+    },
+    "location": "tradingentrance",
+    "name": "asd",
+    "password": "2OA8gqu@",
+    "pile_on_desk": "true",
+    "tracking": {
+        "adminoffice": {
+            "changepassword": {
+                "fail": 0,
+                "success": false
+            }
+        },
+        "gate": {
+            "enterbank": {
+                "fail": 0,
+                "success": true
+            }
+        },
+        "home": {
+            "printornot": {
+                "fail": 0,
+                "success": false
+            }
+        },
+        "newsroom": {
+            "internet": {
+                "fail": 0,
+                "success": false
+            }
+        },
+        "openoffice": {
+            "pile": {
+                "fail": 0,
+                "success": false
+            }
+        },
+        "trainstation": {
+            "checkreport": {
+                "fail": 0,
+                "success": false
+            }
+        },
+        "youroffice": {
+            "email": {
+                "fail": 0,
+                "success": false
+            }
+        }
+    },
+    "username": "greenmeanmachine",
+    "visitcount": [
+        [
+            "gate",
+            1
+        ],
+        [
+            "skr",
+            0
+        ],
+        [
+            "adminoffice",
+            0
+        ],
+        [
+            "newsroom",
+            0
+        ],
+        [
+            "openoffice",
+            0
+        ],
+        [
+            "trainstation",
+            0
+        ],
+        [
+            "home",
+            0
+        ],
+        [
+            "reception",
+            1
+        ],
+        [
+            "trading",
+            0
+        ],
+        [
+            "youroffice",
+            0
+        ],
+        [
+            "it",
+            0
+        ]
+    ],
+    "visited": [
+        [
+            "gate",
+            true
+        ],
+        [
+            "skr",
+            false
+        ],
+        [
+            "adminoffice",
+            false
+        ],
+        [
+            "newsroom",
+            false
+        ],
+        [
+            "openoffice",
+            false
+        ],
+        [
+            "trainstation",
+            false
+        ],
+        [
+            "home",
+            false
+        ],
+        [
+            "reception",
+            true
+        ],
+        [
+            "trading",
+            false
+        ],
+        [
+            "youroffice",
+            false
+        ],
+        [
+            "it",
+            false
+        ]
+    ]
+}

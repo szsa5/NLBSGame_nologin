@@ -1,0 +1,24 @@
+name: Your Office
+description: |
+  Your desk is looking clean and empty. You have left your *jacket* hanging on a coat rack at the corner.
+  Your computer has shutdown after updating the operating system and the antivirus. You turn it on
+  feeling happy with the security updates. You start by looking at your *email*.
+
+
+items:
+  email: |
+    You have two unread emails. The first one is a communication email to all employees urging everyone
+    to act vigilantly. If you notice anything suspicious, you should report to IT Security immediately.
+
+    This makes you keen on going around to check that there are no security violations.
+
+    Use [read latest] to read the latest email.
+  jacket: |
+    Your jacket is hanging where you left it. No one seems to have touched it. You leave your jacket as
+    it is since you are focused on observing security measures to try and prevent the Grinch from succeeding
+    with his attack.
+
+directions:
+  e: adminoffice
+  w: tradingentrance
+  n: openoffice
