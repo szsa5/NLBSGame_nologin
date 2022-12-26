@@ -1,8 +1,0 @@
-name: Trading Room
-description: |
-  You are in the trading room now. You can collect the financial trading report of the day.
-  You can print the report using [print report].
-
-directions:
-  e: youroffice
-  n: reception
