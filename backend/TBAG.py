@@ -52,7 +52,6 @@ class Room():
         self._roomid = roomid
         self._data = yaml.full_load(open(self._fn).read())
 
-
     @staticmethod
     def exists(room):
         try:
@@ -123,7 +122,7 @@ class Room():
 
 class TBAG():
     ROOMS_VISITED = {
-        "gate": True,
+        "gate": False,
         "skr": False,
         "adminoffice": False,
         "newsroom": False,
@@ -155,7 +154,6 @@ class TBAG():
         self._logger = logging.getLogger("TBAG")
         self.loadState()
         self._youreheretext = "<you're here>"
-        self._worldmap = self.loadMap()
         self.setName = False
 
     # State management
@@ -262,15 +260,12 @@ class TBAG():
     # Location & map
     @property
     def location(self):
-        return self.getProperty("location", default="start")
+        return self.getProperty("location", default="gate")
 
     def setLocation(self, loc):
         self.setProperty("location", loc)
-        self._logger.info("setlocation")
         self.roomSetVisited(loc)
-        self._logger.info("setvisited")
         self.incrementVisitCount(loc)
-        self._logger.info("incremented")
 
         return Room(loc).description()
     def teleport(self, loc, admin=False,text=None):
@@ -354,6 +349,12 @@ class TBAG():
         if roomid is None:
             roomid = self.currentRoom().roomid
 
+        #convert tradingentrance to trading
+        if roomid == "tradingentrance":
+            roomid = "trading"
+
+        self._logger.info("setting visisted: "+roomid)
+
         #if not self.roomAlreadyVisited(roomid):
         visitedrooms = self.getProperty("visited")
         newvisitedrooms = []
@@ -375,18 +376,12 @@ class TBAG():
         if roomid is None:
             roomid = self.currentRoom().roomid
 
-        if roomid == "start":
-            roomid = "gate"
-
         trackingdata = self.getProperty("tracking")
         trackingdata[roomid][event]["fail"]+=1
         self.setProperty("tracking", trackingdata)
     def setSuccess(self, event, roomid=None):
         if roomid is None:
             roomid = self.currentRoom().roomid
-
-        if roomid == "start":
-            roomid = "gate"
 
         trackingdata = self.getProperty("tracking")
         trackingdata[roomid][event]["success"] = True
@@ -615,11 +610,17 @@ To interact with the virtual world, you can use these commands:
 
 
     def handleMap(self):
+        self._logger.info("location"+self.location)
+        #ensure gate is visited
+        if self.location == "gate":
+            self.roomSetVisited("gate")
+
+        map = self.loadMap()
         output = ''
-        longeststring = getLongestString(self._worldmap)
+        longeststring = getLongestString(map)
         line = '+---'
         linelength = len(line)
-        numofcols = len(self._worldmap[0])
+        numofcols = len(map[0])
 
         if len(self._youreheretext) > len(longeststring):
             FIELDSIZE = len(self._youreheretext)
@@ -632,7 +633,7 @@ To interact with the virtual world, you can use these commands:
 
         spaces = [None] * numofcols
 
-        for i, a in enumerate(self._worldmap):
+        for i, a in enumerate(map):
             if i % 2 == 0:
                 output += '\n' + line * numoflines + '-' * left + '+'
             for j, b in enumerate(a):
@@ -671,6 +672,7 @@ To interact with the virtual world, you can use these commands:
             output+= " ".join(a) + '\n'
         output+='\n'
 
+        output += f"From here you can go: {self.currentRoom().directionsText()}\n"
         return output
 
     def handleFeedback(self, message):

@@ -31,6 +31,3 @@ items:
     The guard quickly judges whether you are naughty or nice and says:
         'OK, I believe you. Let me make you an access badge. What is your name?'
     You can tell the guard your name with [my name is <name>]
-
-directions:
-  s: reception

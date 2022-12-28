@@ -73,8 +73,17 @@ def checkGameActions(game, line):
 
 # Getting the visitor badge at the gate
 
-#GATE
-@GameAction(location=["gate", "start"],
+
+#START
+@GameAction(location="gate",
+            cmd=lambda l: None is not re.match(
+                r'^\s*look\s*$', l, flags=re.IGNORECASE))
+def setstartpos(game, line):
+    game.roomSetVisited()
+
+
+#GATE+START
+@GameAction(location="gate",
             facing="guard",
             cmd=lambda l: None is not re.match(
                 r'^\s*my\s+name\s+is\s+(.*)\s*$', l, flags=re.IGNORECASE))
@@ -101,11 +110,11 @@ The guard says:
 'You know the drill, you can enter the gate with [use badge].'
 """
 
-@GameAction(location=["gate", "start"],
+@GameAction(location="gate",
             cmd=lambda l: None is not re.match(
                 r'^\s*enter\s+bank\s*$', l, flags=re.IGNORECASE))
 def enterbank(game, line):
-    if None is not game.getInventory("temporary badge"):
+    if None is game.getInventory("temporary badge"):
         #fail
         game.incrementFail("enterbank")
         return "You are not authorized to enter without an access badge. You have to interact with the guard with [look guard]."
@@ -113,7 +122,7 @@ def enterbank(game, line):
         return game.teleport("reception",
                              text="""You use your badge and go through the gate.""")
 
-@GameAction(location=["gate", "start"],
+@GameAction(location="gate",
             cmd=lambda l: None is not re.match(
                 r'^\s*use\s+badge\s*$', l, flags=re.IGNORECASE))
 def usebadge(game, line):
@@ -284,7 +293,7 @@ def usebadge_trading(game, line):
     if None is game.getInventory("badge"):
         return "You are not authorized to enter the trading room using a temporary badge. \n" \
                "You should collect your new badge at IT Ops. You can get to IT Ops using [tp IT]."
-    return game.teleport("trading")
+    return game.setLocation("trading")
 
 #TRADING
 @GameAction(location="trading",
@@ -364,7 +373,7 @@ def collectbadge(game, line):
             game.removeInventory("temporary badge")
         game.updateInventory("badge", f"Your badge.")
         return "You got a new badge with an access permission to the trading room.\n" \
-               " You know that it has been approved by head of Treasury. You are impressed \n" \
+               "You know that it has been approved by head of Treasury. You are impressed \n" \
                "by how quick things work. The picture on the badge is the same picture \n" \
                "on the previous badge, which you did not like this much. Nevertheless, \n" \
                "now you can go to the trading room to continue your work.\n" \

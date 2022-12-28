@@ -6,7 +6,7 @@ services:
       dockerfile: ./backend/Dockerfile
     volumes:
       - ./backend/rooms/:/opt/backend/rooms
-      - ./backend/persistent/:/opt/backend/persistent
+      - ./backend/persistent/:/opt/backend/states
       - ./backend/data/:/opt/backend/data
   frontend:
     build:
