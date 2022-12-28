@@ -516,7 +516,7 @@ class TBAG():
         )
 
     def handleHelp(self):
-        return """You are playing the NLBS Game'
+        return """You are playing the NLBS Game
 To interact with the virtual world, you can use these commands:
 
     look [<target>]
