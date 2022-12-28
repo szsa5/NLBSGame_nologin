@@ -163,7 +163,7 @@ def testpassword(game,line):
 def changepassword(game,line):
     if game.getProperty("adminoffice_loggedin") == "false":
         return "You need to log in to do that."
-    return "Enter a new password using [enter password] according to the bank’s password policy."
+    return "Enter a new password using [enter new_password_value] according to the bank’s password policy."
 
 @GameAction(location="adminoffice",
             facing="program",
@@ -180,13 +180,15 @@ def enterpassword(game,line):
         game.setProperty("adminoffice_password", password)
         #success
         game.setSuccess("changepassword")
+        game.setSuccess("regex")
         game.setFacing(None)
         return "You've successfuly changed the password - hopefully the Grinch won't be able to log in now.\n" \
                "Suddenly the lights start flickering. It seems there is a fault in the electrical system.\n" \
                "It could be the Grinch trying to tamper with the power supply. You can head to the Newsroom to \n" \
                "check the news. Use [tp newsroom]."
-    return "You need to comply with the password policy. You can find the policies in the" \
-           " Sec. office (SKR) [tp skr] and teleport back using [tp adminoffice]."
+    game.incrementFail("regex")
+    return "You need to comply with the password policy. You can find the policies in the\n" \
+           "Sec. office (SKR) [tp skr] and teleport back using [tp adminoffice]."
 
 
 @GameAction(location="adminoffice",
@@ -214,7 +216,7 @@ def logout(game,line):
 @GameAction(location="openoffice",
             facing="pile",
             cmd=lambda l: None is not re.match(
-                r'^\s*leave\s+paper\s*$', l, flags=re.IGNORECASE))
+                r'^\s*leave\s+pile\s*$', l, flags=re.IGNORECASE))
 def leavepaper(game, line):
     if game.getProperty("pile_on_desk") == "true":
         #fail
@@ -260,21 +262,21 @@ def lookpile(game, line):
                 r'^\s*1\s*$', l, flags=re.IGNORECASE))
 def firstoption(game, line):
     game.incrementFail("checkreport")
-    return "Security awareness could be better…\n\n"+game.teleport("home",True)
+    return "Security awareness could be better… Your train has arrived and you should get home ASAP.\n\n"+game.teleport("home",True)
 
 @GameAction(location="trainstation",
             cmd=lambda l: None is not re.match(
                 r'^\s*2\s*$', l, flags=re.IGNORECASE))
 def secondoption(game, line):
     game.setSuccess("checkreport")
-    return "Good security awareness!\n\n"+game.teleport("home",True)
+    return "Good security awareness! Your train has arrived and you should get home ASAP.\n\n"+game.teleport("home",True)
 
 @GameAction(location="trainstation",
             cmd=lambda l: None is not re.match(
                 r'^\s*3\s*$', l, flags=re.IGNORECASE))
 def thirdoption(game, line):
     game.incrementFail("checkreport")
-    return "Security awareness could be better …\n\n"+game.teleport("home",True)
+    return "Security awareness could be better… Your train has arrived and you should get home ASAP.\n\n"+game.teleport("home",True)
 
 #NEWSROOM
 @GameAction(location="newsroom",
@@ -292,7 +294,7 @@ def leaveoffice(game, line):
 def usebadge_trading(game, line):
     if None is game.getInventory("badge"):
         return "You are not authorized to enter the trading room using a temporary badge. \n" \
-               "You should collect your new badge at IT Ops. You can get to IT Ops using [tp IT]."
+               "You should collect your new badge at IT Ops. You can get to IT Ops using [tp it]."
     return game.setLocation("trading")
 
 #TRADING
@@ -341,7 +343,7 @@ def yes(game, line):
                "Please provide a reason for your choice using [feedback reason].\n\n" \
                "After providing feedback, your next objective is to check whether\n" \
                "there are any security issues that you can spot.\n" \
-               f"From here you can go: {game.currentRoom().directionsText()}\n"\
+               f"\nFrom here you can go: {game.currentRoom().directionsText()}\n"\
                 "You can use [map] to check the map"
     return "You've already done that."
 
@@ -359,7 +361,7 @@ def no(game, line):
                "Please provide a reason for your choice using [feedback reason].\n\n" \
                "After providing a feedback, your next objective is to check whether\n" \
                "there are any security issues that you can spot.\n"\
-                f"From here you can go: {game.currentRoom().directionsText()}\n"\
+                f"\nFrom here you can go: {game.currentRoom().directionsText()}\n"\
                 "You can use [map] to check the map"
     return "You've already done that."
 
@@ -383,8 +385,28 @@ def collectbadge(game, line):
 #HOME - end of game
 @GameAction(location="home",
             cmd=lambda l: None is not re.match(
-                r'^\s*look\s+computer\s*$', l, flags=re.IGNORECASE))
+                r'^\s*select\s+ipad\s*$', l, flags=re.IGNORECASE))
+def selectipad(game, line):
+    game.incrementFail("printornot")
+    return "Using personal devices to access confidential work files is not allowed. Try something else."
+
+@GameAction(location="home",
+            cmd=lambda l: None is not re.match(
+                r'^\s*select\s+printer\s*$', l, flags=re.IGNORECASE))
+def selectprinter(game, line):
+    game.incrementFail("printornot")
+    return "Printing confidential documents is not allowed in such printers and particularly\n" \
+           "the ones not password-protected. Try something else."
+
+@GameAction(location="home",
+            cmd=lambda l: None is not re.match(
+                r'^\s*select\s+computer\s*$', l, flags=re.IGNORECASE))
 def lookcomputer(game, line):
+    game.setSuccess("printornot")
     game.setName = True
-    return game.currentRoom().itemDescription("computer^success^printornot") +"\n\n" \
-           "Thanks for playing the NLBS Game! You can exit the game by pressing enter..."
+    return "You approach your computer to remote connect to the bank and start working while" \
+           "having a warm cup of coffee. \n\n" \
+           "You can provide feedback on this room using: feedback input\n" \
+           "You've completed your misson, you can exit the game now by pressing enter..."
+
+

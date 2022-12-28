@@ -9,7 +9,6 @@ import yaml
 import math
 
 from GameActions import *
-from flag import FLAG
 from datetime import datetime
 
 # TBAG stands for Text Based Adventure Game
@@ -189,6 +188,10 @@ class TBAG():
                     "changepassword": {
                         "fail": 0,
                         "success": False
+                    },
+                    "regex": {
+                        "fail": 0,
+                        "success": False
                     }
                 },
                 "newsroom": {
@@ -230,9 +233,6 @@ class TBAG():
             self.setProperty("pile_on_desk", "true")
             self.setProperty("password", makeRandomPassword())
             self.setProperty("username", "greenmeanmachine")  # FIXME
-            self.setProperty("flag", FLAG)
-            # Tune to a random frequency
-            self.setRadioFrequency()
 
     def saveState(self):
         try:
@@ -363,10 +363,10 @@ class TBAG():
             if k == roomid:
                 val = 'current'
             else:
-                val = v
-
-            if v == 'current':
-                val = True
+                if v == 'current':
+                    val = True
+                else:
+                    val = v
 
             newvisitedrooms += [(k, val)]
 
@@ -678,10 +678,14 @@ To interact with the virtual world, you can use these commands:
     def handleFeedback(self, message):
         feedbackfile = os.path.join("data", "feedback.json")
         now = datetime.now()
+        if self.getProperty("name") != None:
+            name = self.getProperty("name")
+        else:
+            name = "no name"
         feedback = {
             "feedbackId": 1,
             "room": self.currentRoom().roomid,
-            "user": self._userid,
+            "user": self.getProperty("name"),
             "datetime": now.strftime("%d/%m/%Y %H:%M:%S"),
             "message": message
         }

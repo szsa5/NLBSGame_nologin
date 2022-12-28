@@ -12,7 +12,7 @@ items:
     You squint at the screen. It reads "Knock, knock, Neo."
   pile: |
     The first paper in the pile shows personal data about a few customers and their account balances.
-    There is a “Confidential” label is on top of the paper. You can leave the paper with [leave paper]
+    There is a “Confidential” label on the paper. You can leave the paper with [leave pile]
     or dispose of the pile with [delete pile] to then leave a clean desk behind.
 
 directions:
