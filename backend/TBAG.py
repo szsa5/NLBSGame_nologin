@@ -278,7 +278,12 @@ class TBAG():
             if self.location == "trainstation" or self.location == "home":
                 return "You can't do that here."
 
-        self.setLocation(loc)
+        #reroute trading tp to entrance
+        if loc == "trading":
+            self.setLocation("tradingentrance")
+        else:
+            self.setLocation(loc)
+
         newdesc = self.currentRoom().description()
         desc = ""
         if text is not None:
@@ -305,10 +310,10 @@ class TBAG():
                 ['', self.roomGetVisited(skr.roomid), self.roomGetVisited(adminoffice.roomid), self.roomGetVisited(newsroom.roomid), '---------->', self.roomGetVisited(trainstation.roomid), self.roomGetVisited(home.roomid), ''],
                 #
                 ['', openoffice.name, youroffice.name, '', '', '', '', ''],
-                ['', self.roomGetVisited(openoffice.roomid),'', self.roomGetVisited(it.roomid), '', '', '', ''],
+                ['', self.roomGetVisited(openoffice.roomid),self.roomGetVisited(youroffice.roomid),'', '', '', '', ''],
                 #
-                [gate.name,reception.name, trading.name,it.name, '', '', '', ''],
-                [self.roomGetVisited(gate.roomid),self.roomGetVisited(reception.roomid), self.roomGetVisited(trading.roomid),self.roomGetVisited(youroffice.roomid), '', '', '', '']
+                [gate.name,reception.name, trading.name, '', it.name, '', '',''],
+                [self.roomGetVisited(gate.roomid),self.roomGetVisited(reception.roomid), self.roomGetVisited(trading.roomid),'', self.roomGetVisited(it.roomid), '', '', '']
         ]
         return map
 
@@ -519,24 +524,24 @@ class TBAG():
         return """You are playing the NLBS Game
 To interact with the virtual world, you can use these commands:
 
-    look [<target>]
+    [look target]
         Look at a certain target. Targets are identified in texts by enclosing asterisks.
         Omit the asterisks for this command.
         If target is omitted, you are shown a description of your location.
         You can abbreviate "look" with "l".
 
-    go <direction>
-        Move in a certain direction. Typical directions are N, S, E, W, NE, SE, NW, SW, up, down.
+    [go direction]
+        Move in a certain direction. Typical directions are N, S, E, W.
         You can use these directions without the "go" command.
         You can also abbreviate "go" with "g".
 
-    inventory
+    [inventory]
         Show items in your inventory. You can abbreviate "inventory" with "i".
         
-    map
+    [map]
         Print out the map, where you've been to, and your current location.
         
-    feedback
+    [feedback message]
         You can contribute to enhancing the security in the current room.
         Use: feedback your_feedback
         
@@ -582,20 +587,17 @@ To interact with the virtual world, you can use these commands:
             ret = checkGameActions(self, "look")
             if ret is not None:
                 return ret
-
             return self.currentRoom().description()
 
         items = self.currentRoom().items
 
+        #handle look fail items
         for item in items:
             if target.lower() == item.split('^')[0].lower():
                 #if item has event values
                 if len((item.split('^')))==3:
                     success_or_fail = item.split('^')[1]
                     eventname = item.split('^')[2]
-
-                    self._logger.info(success_or_fail)
-                    self._logger.info(eventname)
 
                     if success_or_fail == "fail":
                         self.incrementFail(eventname)

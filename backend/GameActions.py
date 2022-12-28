@@ -105,9 +105,13 @@ The guard says:
             cmd=lambda l: None is not re.match(
                 r'^\s*enter\s+bank\s*$', l, flags=re.IGNORECASE))
 def enterbank(game, line):
-    #fail
-    game.incrementFail("enterbank")
-    return "You are not authorized to enter without an access badge. You have to interact with the guard with [look guard]."
+    if None is not game.getInventory("temporary badge"):
+        #fail
+        game.incrementFail("enterbank")
+        return "You are not authorized to enter without an access badge. You have to interact with the guard with [look guard]."
+    else:
+        return game.teleport("reception",
+                             text="""You use your badge and go through the gate.""")
 
 @GameAction(location=["gate", "start"],
             cmd=lambda l: None is not re.match(
@@ -118,65 +122,6 @@ def usebadge(game, line):
 
     return game.teleport("reception",
                          text="""You use your badge and go through the gate.""")
-
-InterrogationQuestions = [
-    {
-        "problem":  """What gifts should children receive for Christmas?""",
-        "options": {
-            "1": (-1, """Lots of toys and candy"""),
-            "2": (0, """More homework"""),
-            "3": (1, """Nothing! We hate children!"""),
-        }
-    },
-    {
-        "problem":  """Why was it so hard to miss the Grinch on Christmas morning?""",
-        "options": {
-            "1": (0, """Because we all have to work on that day"""),
-            "2": (1, """Because he has has all the presence"""),
-            "3": (-1, """I don't know"""),
-        }
-    },
-    {
-        "problem":  """Which Christmas carol is the most annoying?""",
-        "options": {
-            "1": (1, """All of them!"""),
-            "2": (-1, """Jingle bells"""),
-            "3": (0, """You're a mean one, mister Grinch"""),
-        }
-    },
-    {
-        "problem":  """Why is the Grinch afraid of Santa Claus?""",
-        "options": {
-            "1": (0, """He is not!"""),
-            "2": (-1, """Because he has so much love in his heart"""),
-            "3": (1, """Because he is Claustrophobic"""),
-        }
-    },
-    {
-        "problem":  """Who is the best boss in the whole world?""",
-        "options": {
-            "1": (0, """Max"""),
-            "2": (-1, """Santa"""),
-            "3": (1, """Grinch"""),
-        }
-    },
-    {
-        "problem":  """Why doesn't the Grinch like knock knock jokes?""",
-        "options": {
-            "1": (0, """Because it reveals our secret base!"""),
-            "2": (1, """Because there’s always Who's there!"""),
-            "3": (-1, """He does!"""),
-        }
-    },
-    {
-        "problem":  """What secret did the Grinch sobbingly confide in us during last month's meeting?""",
-        "options": {
-            "1": (-1, """His heart has grown a size"""),
-            "2": (1, """He secretly wants to be Santa"""),
-            "3": (0, """He is proud of us"""),
-        }
-    },
-]
 
 #ADMINOFFICE
 @GameAction(location="adminoffice",
@@ -194,8 +139,7 @@ def testpassword(game,line):
         if officePassword == "admin":
             return "You have figured out the password and logged into the program now rather easily.\n" \
                    "The Grinch could also access the program easily. There are two options showing now [log out] \n" \
-                   "or [change password] to start the process. " \
-                   "Which one will you choose?"
+                   "or [change password]. Which one will you choose?"
         else:
             return "There are two options showing now [log out] or [change password] to start the process. " \
                    "Which one will you choose?"
@@ -210,7 +154,7 @@ def testpassword(game,line):
 def changepassword(game,line):
     if game.getProperty("adminoffice_loggedin") == "false":
         return "You need to log in to do that."
-    return "Enter a new password using [enter <password>] according to the bank’s password policy."
+    return "Enter a new password using [enter password] according to the bank’s password policy."
 
 @GameAction(location="adminoffice",
             facing="program",
@@ -221,7 +165,8 @@ def enterpassword(game,line):
         return "You need to log in to do that."
     m = re.match( r'^\s*enter\s+(.*)\s*$', line, flags=re.IGNORECASE)
     password = m.group(1).strip()
-    if re.fullmatch('(?=.*\d)(?=.*[a-z])(?=.*[A-Z])((?=.*\W)|(?=.*_))^[^ ]+$', password):
+    #if re.fullmatch('(?=.*\d)(?=.*[a-z])(?=.*[A-Z])((?=.*\W)|(?=.*_))^[^ ]+$', password):
+    if re.fullmatch('((?=.*\d)(?=.*[a-z])(?=.*[A-Z])|(?=.*\d)(?=.*[a-zA-Z])(?=.*[\W_])|(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_])).*', password):
         password = m.group(1).strip()
         game.setProperty("adminoffice_password", password)
         #success
@@ -232,7 +177,7 @@ def enterpassword(game,line):
                "It could be the Grinch trying to tamper with the power supply. You can head to the Newsroom to \n" \
                "check the news. Use [tp newsroom]."
     return "You need to comply with the password policy. You can find the policies in the" \
-           " Security Knowledge Room (SKR) [teleport skr] and teleport back using [teleport adminoffice]."
+           " Sec. office (SKR) [tp skr] and teleport back using [tp adminoffice]."
 
 
 @GameAction(location="adminoffice",
@@ -249,8 +194,9 @@ def logout(game,line):
         game.incrementFail("changepassword")
         #fail
 
-    return "The program shows: 'Logging out...'. After a while, a pop-up shows: 'You've logged out successfully.'\n" \
-           ""
+    return "The program shows: 'Logging out...'. After a while, a pop-up shows: 'You've logged out successfully.'\n"
+    f"From here you can go: {game.currentRoom().directionsText()}\n"\
+                "You can use [map] to check the map"
 
 #SKR
 #NEWSROOM
@@ -337,9 +283,7 @@ def leaveoffice(game, line):
 def usebadge_trading(game, line):
     if None is game.getInventory("badge"):
         return "You are not authorized to enter the trading room using a temporary badge. \n" \
-               "Apply to a new badge by sending an email to IT Ops and head immediately \n" \
-               "to IT Ops to retrieve the new badge"
-
+               "You should collect your new badge at IT Ops. You can get to IT Ops using [tp IT]."
     return game.teleport("trading")
 
 #TRADING
@@ -347,10 +291,12 @@ def usebadge_trading(game, line):
             cmd=lambda l: None is not re.match(
                 r'^\s*print\s+report\s*$', l, flags=re.IGNORECASE))
 def printreport(game, line):
+
     if None is game.getInventory("report"):
         return "You print the report. A “Confidential” label is printed on top of the document indicating \n" \
                "its classification. You collect the report and head to your office\n" \
-               "to scan and send the report.\n"
+               "to scan and send the report.\n" \
+               f"From here you can go: {game.currentRoom().directionsText()}"
 
     return "You already have the report."
 
@@ -369,7 +315,8 @@ def reademails(game, line):
            "successful attack. Please click on this link to upload your daily financial report.\n\n" \
            "Best Regards,\n" \
            "NY DFS\n\n" \
-           "Do you want to send the report? [yes][no]\n"
+           "Do you want to send the report? Yes [yes] or no [no]?\n" \
+           "Provide a reason for your decision using [feedback text]."
 
 @GameAction(location="youroffice",
             facing="latestemail",
@@ -379,12 +326,15 @@ def yes(game, line):
     if game.getProperty("email_decided") == "false":
         game.incrementFail("email")
         game.setProperty("email_decided", "true")
-        return "Do you think that NY DFS would request the disclosure of confidential data over email? \n" \
-               "Do you not see that the email address could not belong to a NY DFS official authority?\n" \
-               "Please provide a reason for your choice using [feedback <reason>].\n\n" \
+        return "Do you think that NY DFS would request the disclosure of confidential data over email?\n" \
+               "Looking carefully, one could see that the email address appears to be but \n" \
+               "is not for the NY DFS official authority. "\
+               "Please provide a reason for your choice using [feedback reason].\n\n" \
                "After providing feedback, your next objective is to check whether\n" \
-               "there are any security issues that you can spot."
-    return "You can't do that."
+               "there are any security issues that you can spot.\n" \
+               f"From here you can go: {game.currentRoom().directionsText()}\n"\
+                "You can use [map] to check the map"
+    return "You've already done that."
 
 @GameAction(location="youroffice",
             facing="latestemail",
@@ -397,10 +347,12 @@ def no(game, line):
         return "Correct. The email is a phishing attack that could be launched by the Grinch. \n" \
                "The email of the sender has numbers instead of letters. NY DFS will never request\n" \
                "sending confidential information via email. You cannot be fooled by such an attempt.\n" \
-               "Please provide a reason for your choice using [feedback <reason>].\n\n" \
+               "Please provide a reason for your choice using [feedback reason].\n\n" \
                "After providing a feedback, your next objective is to check whether\n" \
-               "there are any security issues that you can spot."
-    return "You can't do that."
+               "there are any security issues that you can spot.\n"\
+                f"From here you can go: {game.currentRoom().directionsText()}\n"\
+                "You can use [map] to check the map"
+    return "You've already done that."
 
 #IT
 @GameAction(location="it",
@@ -417,7 +369,7 @@ def collectbadge(game, line):
                "on the previous badge, which you did not like this much. Nevertheless, \n" \
                "now you can go to the trading room to continue your work.\n" \
                "Use [tp trading] to return to the Trading Room.\n"
-    return "You can't do that."
+    return "You've already done that."
 
 #HOME - end of game
 @GameAction(location="home",
@@ -427,69 +379,3 @@ def lookcomputer(game, line):
     game.setName = True
     return game.currentRoom().itemDescription("computer^success^printornot") +"\n\n" \
            "Thanks for playing the NLBS Game! You can exit the game by pressing enter..."
-
-def winfunction(game):
-    game.setName = True
-    if game.getProperty("wintime") == None:
-        game.setProperty("wintime", time.time())
-        game.setProperty("wintimestr", str(datetime.datetime.now()))
-
-    flag = game.getProperty("flag")
-    return f"""The login box makes way for another screen.
-You navigate the software menus and locate the graceful shutdown button.
-Your fingers tremble as you click shutdown. "Is this it? Did I miss anything?"
-For a moment, time feels frozen as nothing seems to happen...
-
-Then one by one, the lights on the servers in the room start going out.
-In a panic, you run outside the window in Design office 2.
-You hold your breath as your observe the missile launch system.
-
-Oh no! The motors start spinning! You see how the launch system erects
-itself on the launchpad and then...
-
-...folds the missiles away and closes the launch hatches!
-YES! You did it!!!! The missile system has shut down!
-You send out "MISSION SUCCESS" on your comm-radio and moments later
-you hear the sweetest sound you've ever heard...
-
-It's the jingle bells on Sleigh One as it approaches your position.
-Santa lands next to you, steps out and walks towards you.
-With a warm embrace Santa whispers:
-
-                     Well done my child!
-                  You have saved Christmas!
-
-     {flag}
-
-Press the enter key to finish the game.
-"""
-
-
-# This is for debugging
-# @GameAction(
-# location="securityoffice",
-# cmd=lambda l: None is not re.match(r'^\s*x\s*$', l, flags=re.IGNORECASE))
-# def resetsecurityoffice(game, line):
-####     interrogation = game.getProperty("interrogation")
-# states = {
-# "started": "givecard",
-# "givecard": "done",
-# "done": "started",
-# }
-####     newgame = states[interrogation]
-####     game.setProperty("interrogation", newgame)
-# return f"went from {interrogation} to {newgame}"
-####
-####
-# @GameAction(cmd="cheat")
-# def togglelight(game, line):
-# game.roomTogglePower()
-####     roomid = game.currentRoom().roomid
-####     v = game.roomHasPower()
-####     logging.warning(f"CHEAT Switched power for {roomid} to {v}")
-# return game.currentRoom().description(append="Power toggled")
-####
-####
-# @GameAction(cmd="win")
-# def togglelight(game, line):
-#    return winfunction(game)

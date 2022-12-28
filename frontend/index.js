@@ -8,6 +8,7 @@ const { GrinchBaseClient } = require("./grinchbase_grpc_web_pb")
 const banner = `
 Welcome to the NLBS Game
 -- Type 'help' to start --
+-- Type 'look' to see where you are --
 `;
 
 function makeid() {

@@ -5,6 +5,9 @@ description: |
   program window. There is a *post-it* on the computer.  On the screen there are two buttons,
   one to access the *program* and the other play a *screensaver*.
 
+  You can check your current location using: map
+  You can provide feedback on this room using: feedback input
+
 items:
   post-it: |
     The post-it looks a bit old. There are only two words written

@@ -1,18 +1,14 @@
 name: New York Train
 description: |
-  You felt tired and worried about what the impact of the attack on your home.
-  You teleported to NY train station. You were lucky to catch a train going home directly.
-  The day has been quite stressful. The Grinch’s threatening attack is making you
-  worried whether you will be able to enjoy and others a merry Christmas or not.
-  You want to continue checking on your work and whether the bank applications are still
-  working properly. You remember that you should access the loans applications.
-  You launch the app and start looking at the reports of individual loans.
-  At the same time, you are wondering whether it is safe to navigate such data on the train.
-  The reports include personal and financial data. Thus, the data is confidential.
-  You are tired and have one thought only:
-
-  1 - Given the attack threat, it is important to view reports on the train
-  2 - Confidential data cannot be accessed in public spaces
-  3 - The Grinch has eyes everywhere and there is no point in being discreet or worried, since he can access any data at any time
+  You are on the last train. The Grinch threats are making you worried. You want to access
+  the loan applications. At the same time, you are wondering whether it is safe to navigate
+  personal and financial data on the train. You are tired and have only one thought:
+  1 - Given the attack threat, it is important to view reports on the train.
+  2 - Confidential data cannot be accessed in public spaces.
+  3 - The Grinch has eyes everywhere and there is no point in being discreet or worried,
+  since he can access any data at any time.
 
   (enter the number of the option you think is correct)
+
+  You can check your current location using: map
+  You can provide feedback on this room using: feedback input
