@@ -18,24 +18,6 @@ CHEATS = not True
 ROOMSDIR = "rooms"
 
 
-def makeRandomPassword():
-    pwconf = {
-        string.ascii_uppercase: 2,
-        string.ascii_lowercase: 3,
-        string.digits: 2,
-        "!@#$%": 1,
-    }
-
-    pwchars = []
-
-    for k, v in pwconf.items():
-        pwchars += [random.choice(k) for _ in range(v)]
-
-    random.shuffle(pwchars)
-    pw = "".join([c for c in pwchars])
-    return pw
-
-
 def getLongestString(list):
     max = list[0][0]
     for a in list:
@@ -236,13 +218,13 @@ class TBAG():
                     }
                 }
             }
-
+            now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             self._state["tracking"] = initialTracking
+            self.setProperty("date_created", now)
             self.setProperty("email_decided", "false")
             self.setProperty("adminoffice_loggedin", "false")
             self.setProperty("adminoffice_password", "admin")
             self.setProperty("pile_on_desk", "true")
-            self.setProperty("password", makeRandomPassword())
             self.setProperty("username", "greenmeanmachine")  # FIXME
 
     def saveState(self):
