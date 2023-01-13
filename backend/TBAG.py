@@ -17,6 +17,7 @@ from datetime import datetime
 CHEATS = not True
 ROOMSDIR = "rooms"
 
+
 def makeRandomPassword():
     pwconf = {
         string.ascii_uppercase: 2,
@@ -34,8 +35,8 @@ def makeRandomPassword():
     pw = "".join([c for c in pwchars])
     return pw
 
-def getLongestString(list):
 
+def getLongestString(list):
     max = list[0][0]
     for a in list:
         for b in a:
@@ -43,6 +44,7 @@ def getLongestString(list):
                 max = b
 
     return max
+
 
 class Room():
     def __init__(self, roomid):
@@ -119,6 +121,7 @@ class Room():
     def nextRoom(self, direction):
         return self._data["directions"][direction]
 
+
 class TBAG():
     ROOMS_VISITED = {
         "gate": False,
@@ -168,58 +171,66 @@ class TBAG():
             self._state = {}
 
             # Set rooms visited
-            roomsvisited =  list(self.ROOMS_VISITED.keys())
+            roomsvisited = list(self.ROOMS_VISITED.keys())
             self._state["visited"] = [(k, self.ROOMS_VISITED[k])
-                           for k in roomsvisited]
+                                      for k in roomsvisited]
 
             # Set visit counter
             visitcount = list(self.VISIT_COUNT.keys())
             self._state["visitcount"] = [(k, self.VISIT_COUNT[k])
-                           for k in visitcount]
+                                         for k in visitcount]
 
             initialTracking = {
                 "gate": {
                     "enterbank": {
+                        "name": "Use access badge for entry",
                         "fail": 0,
                         "success": False
                     }
                 },
                 "adminoffice": {
                     "changepassword": {
+                        "name": "Replace simple passwords",
                         "fail": 0,
                         "success": False
                     },
                     "regex": {
+                        "name": "Comply with password complexity",
                         "fail": 0,
                         "success": False
                     }
                 },
                 "newsroom": {
                     "internet": {
+                        "name": "Connect to the disaster communication system",
                         "fail": 0,
                         "success": False
                     }
                 },
                 "openoffice": {
                     "pile": {
+                        "name": "Remove confidential data",
                         "fail": 0,
                         "success": False
                     }
                 },
                 "trainstation": {
                     "checkreport": {
+                        "name": "Access confidential data in public",
                         "fail": 0,
                         "success": False
                     }
                 },
                 "home": {
                     "printornot": {
+                        "name": "Appropriate devices for remote access",
                         "fail": 0,
                         "success": False
                     }
                 },
                 "youroffice": {
                     "email": {
+                        "name": "Respond to phishing email",
                         "fail": 0,
                         "success": False
                     }
@@ -268,12 +279,13 @@ class TBAG():
         self.incrementVisitCount(loc)
 
         return Room(loc).description()
-    def teleport(self, loc, admin=False,text=None):
-        if admin==False:
+
+    def teleport(self, loc, admin=False, text=None):
+        if admin == False:
             if self.location == "trainstation" or self.location == "home":
                 return "You can't do that here."
 
-        #reroute trading tp to entrance
+        # reroute trading tp to entrance
         if loc == "trading":
             self.setLocation("tradingentrance")
         else:
@@ -301,18 +313,21 @@ class TBAG():
         trainstation = Room("trainstation")
         home = Room("home")
         map = [
-                ['', skr.name, adminoffice.name, newsroom.name, '', trainstation.name, home.name, ''],
-                ['', self.roomGetVisited(skr.roomid), self.roomGetVisited(adminoffice.roomid), self.roomGetVisited(newsroom.roomid), '---------->', self.roomGetVisited(trainstation.roomid), self.roomGetVisited(home.roomid), ''],
-                #
-                ['', openoffice.name, youroffice.name, '', '', '', '', ''],
-                ['', self.roomGetVisited(openoffice.roomid),self.roomGetVisited(youroffice.roomid),'', '', '', '', ''],
-                #
-                [gate.name,reception.name, trading.name, '', it.name, '', '',''],
-                [self.roomGetVisited(gate.roomid),self.roomGetVisited(reception.roomid), self.roomGetVisited(trading.roomid),'', self.roomGetVisited(it.roomid), '', '', '']
+            ['', skr.name, adminoffice.name, newsroom.name, '', trainstation.name, home.name, ''],
+            ['', self.roomGetVisited(skr.roomid), self.roomGetVisited(adminoffice.roomid),
+             self.roomGetVisited(newsroom.roomid), '---------->', self.roomGetVisited(trainstation.roomid),
+             self.roomGetVisited(home.roomid), ''],
+            #
+            ['', openoffice.name, youroffice.name, '', '', '', '', ''],
+            ['', self.roomGetVisited(openoffice.roomid), self.roomGetVisited(youroffice.roomid), '', '', '', '', ''],
+            #
+            [gate.name, reception.name, trading.name, '', it.name, '', '', ''],
+            [self.roomGetVisited(gate.roomid), self.roomGetVisited(reception.roomid),
+             self.roomGetVisited(trading.roomid), '', self.roomGetVisited(it.roomid), '', '', '']
         ]
         return map
 
-    #Tracking
+    # Tracking
     def currentRoom(self):
         return Room(self.location)
 
@@ -323,9 +338,9 @@ class TBAG():
         visitcount = self.getProperty("visitcount")
         newvisitcount = []
         for k, v in visitcount:
-            #set previous current to visited
+            # set previous current to visited
             if k == roomid:
-                val = v+1
+                val = v + 1
             else:
                 val = v
 
@@ -345,21 +360,22 @@ class TBAG():
             return self._youreheretext
         else:
             return ""
+
     def roomSetVisited(self, roomid=None):
         if roomid is None:
             roomid = self.currentRoom().roomid
 
-        #convert tradingentrance to trading
+        # convert tradingentrance to trading
         if roomid == "tradingentrance":
             roomid = "trading"
 
-        self._logger.info("setting visisted: "+roomid)
+        self._logger.info("setting visisted: " + roomid)
 
-        #if not self.roomAlreadyVisited(roomid):
+        # if not self.roomAlreadyVisited(roomid):
         visitedrooms = self.getProperty("visited")
         newvisitedrooms = []
         for k, v in visitedrooms:
-            #set previous current to visited
+            # set previous current to visited
             if k == roomid:
                 val = 'current'
             else:
@@ -377,8 +393,9 @@ class TBAG():
             roomid = self.currentRoom().roomid
 
         trackingdata = self.getProperty("tracking")
-        trackingdata[roomid][event]["fail"]+=1
+        trackingdata[roomid][event]["fail"] += 1
         self.setProperty("tracking", trackingdata)
+
     def setSuccess(self, event, roomid=None):
         if roomid is None:
             roomid = self.currentRoom().roomid
@@ -489,7 +506,7 @@ class TBAG():
             return self.indent(self.handleMove(parts[1]))
 
         if parts[0].lower() in [
-                "n", "e", "s", "w", "ne", "se", "nw", "sw", "up", "down"
+            "n", "e", "s", "w", "ne", "se", "nw", "sw", "up", "down"
         ] and len(parts) == 1:
             return self.indent(self.handleMove(parts[0]))
 
@@ -532,14 +549,14 @@ To interact with the virtual world, you can use these commands:
 
     [inventory]
         Show items in your inventory. You can abbreviate "inventory" with "i".
-        
+
     [map]
         Print out the map, where you've been to, and your current location.
-        
+
     [feedback message]
         You can contribute to enhancing the security in the current room.
         Use: feedback your_feedback
-        
+
     <other commands>
         Other commands will be revealed to you while interacting with the world.
         They are enclosed in square brackets '[' and ']'.
@@ -586,11 +603,11 @@ To interact with the virtual world, you can use these commands:
 
         items = self.currentRoom().items
 
-        #handle look fail items
+        # handle look fail items
         for item in items:
             if target.lower() == item.split('^')[0].lower():
-                #if item has event values
-                if len((item.split('^')))==3:
+                # if item has event values
+                if len((item.split('^'))) == 3:
                     success_or_fail = item.split('^')[1]
                     eventname = item.split('^')[2]
 
@@ -607,11 +624,9 @@ To interact with the virtual world, you can use these commands:
 
         return "You cannot look there."
 
-
-
     def handleMap(self):
-        self._logger.info("location"+self.location)
-        #ensure gate is visited
+        self._logger.info("location" + self.location)
+        # ensure gate is visited
         if self.location == "gate":
             self.roomSetVisited("gate")
 
@@ -638,39 +653,39 @@ To interact with the virtual world, you can use these commands:
                 output += '\n' + line * numoflines + '-' * left + '+'
             for j, b in enumerate(a):
                 if i % 2 == 0:
-                    #getting + spacing - get length of roomname
+                    # getting + spacing - get length of roomname
                     spaces[j] = len(b)
 
-                    #printing
+                    # printing
                     if j == 0:
-                        output += '\n|{:^{x}}'.format(b, x = FIELDSIZE)
+                        output += '\n|{:^{x}}'.format(b, x=FIELDSIZE)
                     else:
-                        output += '|{:^{x}}'.format(b, x = FIELDSIZE)
+                        output += '|{:^{x}}'.format(b, x=FIELDSIZE)
                 else:
                     if j == 0:
-                        output += '\n|{:^{x}}'.format(b,x = FIELDSIZE)
+                        output += '\n|{:^{x}}'.format(b, x=FIELDSIZE)
                     else:
-                        output += '|{:^{x}}'.format(b,x = FIELDSIZE)
+                        output += '|{:^{x}}'.format(b, x=FIELDSIZE)
             output += '|'
         output += '\n' + line * numoflines + '-' * left + '+\n\n'
 
         compass = [
-       [' ',' ',' ',' ',' ','E',' ',' ',' ',' ',' '],
-       [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-       [' ',' ',' ',' ',' ','∧',' ',' ',' ',' ',' '],
-       [' ',' ',' ',' ',' ','|',' ',' ',' ',' ',' '],
-       [' ',' ',' ',' ',' ','|',' ',' ',' ',' ',' '],
-       ['N',' ','<','-','-','.','-','-','>',' ','S'],
-       [' ',' ',' ',' ',' ','|',' ',' ',' ',' ',' '],
-       [' ',' ',' ',' ',' ','|',' ',' ',' ',' ',' '],
-       [' ',' ',' ',' ',' ','∨',' ',' ',' ',' ',' '],
-       [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-       [' ',' ',' ',' ',' ','W',' ',' ',' ',' ',' ']
-       ]
+            [' ', ' ', ' ', ' ', ' ', 'E', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', ' ', ' ', '∧', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', ' ', ' ', '|', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', ' ', ' ', '|', ' ', ' ', ' ', ' ', ' '],
+            ['N', ' ', '<', '-', '-', '.', '-', '-', '>', ' ', 'S'],
+            [' ', ' ', ' ', ' ', ' ', '|', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', ' ', ' ', '|', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', ' ', ' ', '∨', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', ' ', ' ', 'W', ' ', ' ', ' ', ' ', ' ']
+        ]
 
         for a in compass:
-            output+= " ".join(a) + '\n'
-        output+='\n'
+            output += " ".join(a) + '\n'
+        output += '\n'
 
         output += f"From here you can go: {self.currentRoom().directionsText()}\n"
         return output
@@ -691,13 +706,13 @@ To interact with the virtual world, you can use these commands:
         }
 
         a = []
-        #if feedbackfile doesnt exist
+        # if feedbackfile doesnt exist
         if not os.path.isfile(feedbackfile):
             a.append(feedback)
             with open(feedbackfile, mode='w') as f:
                 f.write(json.dumps(a, indent=2))
 
-        #if feedbackfile exists
+        # if feedbackfile exists
         else:
             with open(feedbackfile) as content:
                 jsoncontent = json.load(content)
@@ -713,13 +728,14 @@ To interact with the virtual world, you can use these commands:
 
         return "Thank you for your feedback!"
 
+
 if __name__ == "__main__":
     import sys
+
     logging.basicConfig(level="DEBUG")
     fn = "persistent/mygame.json"
     if len(sys.argv) > 1:
         fn = sys.argv[1]
-
 
     game = TBAG(fn)
 
