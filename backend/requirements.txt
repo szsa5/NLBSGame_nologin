@@ -1,5 +1,5 @@
+python-docx==0.8.11
 docx==0.2.4
-grpc==1.0.0
 matplotlib==3.6.2
 pandas==1.5.2
 PyYAML==6.0
