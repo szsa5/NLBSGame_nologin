@@ -1,0 +1,165 @@
+{
+    "adminoffice_loggedin": "false",
+    "adminoffice_password": "admin",
+    "date_created": "2023-02-28 07:54:52",
+    "email": "laibaqazzafi09@gmail.com",
+    "email_decided": "true",
+    "facing": null,
+    "inventory": {
+        "badge": "Your badge."
+    },
+    "location": "home",
+    "name": "Laiba",
+    "pile_on_desk": "true",
+    "player_id": 6,
+    "session_id": 2,
+    "tracking": {
+        "adminoffice": {
+            "changepassword": {
+                "fail": 0,
+                "name": "Replace simple passwords",
+                "success": false
+            },
+            "regex": {
+                "fail": 0,
+                "name": "Comply with password complexity",
+                "success": false
+            }
+        },
+        "gate": {
+            "enterbank": {
+                "fail": 0,
+                "name": "Use access badge for entry",
+                "success": true
+            }
+        },
+        "home": {
+            "printornot": {
+                "fail": 0,
+                "name": "Appropriate devices for remote access",
+                "success": false
+            }
+        },
+        "newsroom": {
+            "internet": {
+                "fail": 0,
+                "name": "Connect to the disaster communication system",
+                "success": true
+            }
+        },
+        "openoffice": {
+            "pile": {
+                "fail": 0,
+                "name": "Remove confidential data",
+                "success": false
+            }
+        },
+        "trainstation": {
+            "checkreport": {
+                "fail": 1,
+                "name": "Access confidential data in public",
+                "success": false
+            }
+        },
+        "youroffice": {
+            "email": {
+                "fail": 1,
+                "name": "Respond to phishing email",
+                "success": false
+            }
+        }
+    },
+    "username": "greenmeanmachine",
+    "visitcount": [
+        [
+            "gate",
+            2
+        ],
+        [
+            "skr",
+            0
+        ],
+        [
+            "adminoffice",
+            1
+        ],
+        [
+            "newsroom",
+            1
+        ],
+        [
+            "openoffice",
+            1
+        ],
+        [
+            "trainstation",
+            1
+        ],
+        [
+            "home",
+            1
+        ],
+        [
+            "reception",
+            2
+        ],
+        [
+            "trading",
+            0
+        ],
+        [
+            "youroffice",
+            2
+        ],
+        [
+            "it",
+            1
+        ]
+    ],
+    "visited": [
+        [
+            "gate",
+            true
+        ],
+        [
+            "skr",
+            false
+        ],
+        [
+            "adminoffice",
+            true
+        ],
+        [
+            "newsroom",
+            true
+        ],
+        [
+            "openoffice",
+            true
+        ],
+        [
+            "trainstation",
+            true
+        ],
+        [
+            "home",
+            "current"
+        ],
+        [
+            "reception",
+            true
+        ],
+        [
+            "trading",
+            true
+        ],
+        [
+            "youroffice",
+            true
+        ],
+        [
+            "it",
+            true
+        ]
+    ]
+}

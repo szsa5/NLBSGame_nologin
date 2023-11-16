@@ -48,7 +48,17 @@ class GrinchBaseServer(grinchbase_pb2_grpc.GrinchBaseServicer):
             tbag = TBAG(statefile,gamedata)
             output = tbag.handle(request.text)
             outtype = "text"
+            outtype1 = "text"
             extra = ""
+            extra1 = ""
+            if tbag.setReset:
+                outtype = "reset"
+                tbag.setReset = False
+                extra = tbag.getProperty("name")
+            res = grinchbase_pb2.CommandResult(code=0,
+                                               type=outtype,
+                                               extra=extra,
+                                               text=output)
             if tbag.setName:
                 outtype = "name"
                 tbag.setName = False
@@ -57,6 +67,7 @@ class GrinchBaseServer(grinchbase_pb2_grpc.GrinchBaseServicer):
                                                type=outtype,
                                                extra=extra,
                                                text=output)
+            
         except Exception as e:
             logging.error(f"Exception in HandleCommand: {e}")
 

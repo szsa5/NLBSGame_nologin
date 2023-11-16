@@ -6,6 +6,7 @@ import logging
 import re
 import string
 import time
+import requests
 
 GameActions = []
 
@@ -81,6 +82,66 @@ def checkGameActions(game, line):
 def setstartpos(game, line):
     game.roomSetVisited()
 
+#LOGIN
+@GameAction(location=["login"],
+            facing="otp",
+            cmd=lambda l: None is not re.match(
+                r'^\s*verify\s+(\S+)\s+(\S+)\s*$', l, flags=re.IGNORECASE))
+def login(game, line):
+    m = re.match(r'^\s*verify\s+(\S+)\s+(\S+)\s*$', line, flags=re.IGNORECASE)
+
+    fname = m.group(1)
+    # lname = m.group(2)
+    otp = m.group(2)
+    
+    # email = game.getProperty("email")
+
+    headers = {'User-Agent': 'Mozilla/5.0'}
+
+    # API_ENDPOINT = "http://192.168.1.4:5000/otp_username_verification"
+    API_ENDPOINT = "http://nlbsgame.psialgebra.com:5000/otp_username_verification"
+    data = {
+    'fname':fname,
+    'otp':otp}
+    r = requests.post(url = API_ENDPOINT, headers=headers, data=data).json()
+    pastebin_url = r
+
+    # name = pastebin_url['name']
+    ans = pastebin_url['success']
+    message = pastebin_url['message']
+   
+
+    if ans == True:
+        player_id = pastebin_url['player_id']
+        player_email = pastebin_url['email']
+        player_fname = pastebin_url['first_name']
+        player_lname = pastebin_url['last_name']
+        username = player_fname +" "+ player_lname
+        session_id = pastebin_url['session_id']
+        game.setProperty("email", player_email)
+        game.setProperty("name", username)
+        game.setProperty("player_id", player_id)
+        game.setProperty("session_id", session_id)
+        # game.setProperty("gpass", password)
+        return game.after_login("gate",
+                          text="""You have successfully logged in.""")
+        # return f"""{ ans}"""
+    else:     
+        return f"""{message}"""
+
+@GameAction(location="reset",
+            cmd=lambda l: None is not re.match(
+                r'^\s*reset\s+game\s*$', l, flags=re.IGNORECASE))
+def reset(game, line):
+    game.setReset=True
+    return "your game will be reset press enter"
+
+@GameAction(location="reset",
+            cmd=lambda l: None is not re.match(
+                r'^\s*go\s+back\s*$', l, flags=re.IGNORECASE))
+def reset(game, line):
+    prev_loc = game.getProperty("prev_loc")
+    return game.teleport(prev_loc,"your game is resumed")          
 
 #GATE+START
 @GameAction(location="gate",
@@ -295,6 +356,7 @@ def usebadge_trading(game, line):
     if None is game.getInventory("badge"):
         return "You are not authorized to enter the trading room using a temporary badge. \n" \
                "You should collect your new badge at IT Ops. You can get to IT Ops using [tp it]."
+               
     return game.setLocation("trading")
 
 #TRADING

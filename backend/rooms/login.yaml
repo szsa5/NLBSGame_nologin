@@ -1,0 +1,13 @@
+name: Login
+description: |
+
+  You are cold and terified, your hands are shivering and you don't know 
+  what to do! Suddenly you see a blinking computer screen. The screen displays
+  Enter your credentials to log in to NordLB. With your shevering hands you 
+  enter your credentials...
+
+items:
+  computer: |
+    Enter your credentials as [login <username> <password>] to fill in the login prompt
+  otp: |
+    Enter the otp sent on your email as [verify <username> <otp>]

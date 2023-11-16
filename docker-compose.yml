@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 services:
   backend:
     build:
@@ -16,8 +16,47 @@ services:
     build:
       context: ./envoy
     ports:
-      - "443:8080"
+      - "8080:8080"
     links:
       - backend
       - frontend
+#      - app
+#  app:
+#    build: ./loginauth
+#    links:
+#      - db
+#      - backend
+#      - frontend
+#    ports:
+#      - "5001:3000"
+#    volumes:
+#      - ./backend/rooms/:/opt/backend/rooms
+#      - ./backend/persistent/:/opt/backend/states
+#      - ./backend/data/:/opt/backend/data
 
+  db:
+    image: mysql:5.7
+    container_name: db
+    environment:
+      MYSQL_ROOT_PASSWORD: muneeb
+      MYSQL_DATABASE: grinch
+      MYSQL_HOST: localhost
+
+    ports:
+      - "3306:3306"
+    volumes:
+      - dbdata:/var/lib/mysql
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: pma
+    links:
+      - db
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 1
+    restart: always
+    ports:
+      - 8081:80
+volumes:
+  dbdata:

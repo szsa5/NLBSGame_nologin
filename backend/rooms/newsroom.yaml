@@ -9,7 +9,7 @@ description: |
   launch and connect one of the following applications to ensure you get the recent and most relevant updates
   about the current crisis:
 
-  1) *Twitter* especially after the changes made by Musk to optimize the quality of the platform,
+  1) *X* especially after the changes made by Musk to optimize the quality of the platform,
   2) Microsoft *Teams*, or
   3) *Fact24* system
 
@@ -18,21 +18,33 @@ description: |
   You can check your current location using: map
   You can provide feedback on this room using: feedback input
 items:
-  twitter^fail^internet: |
-    Twitter is showing different local and international news and stories. Christmas is the main theme
+  x^fail^internet: |
+    X is showing different local and international news and stories. Christmas is the main theme
     of tweets. There are a few tweets about a Grinch planned attack on New York City banks. But no details yet …
 
-    You can leave the office with [leave office]. Once you leave the office, you cannot come back.
   teams^fail^internet: |
-    Teams shows you personal messages from your colleagues. Yesterday’s message from your manager is still unread.
-    You do not feel like reading it now since you expect it to be another task he is assigning to you.
+    Teams shows you personal messages from your colleagues. Yesterday’s message from your manager 
+    is still unread. You do not feel like reading it now, since you expect it to be another task he is 
+    assigning to you.
 
-    You can leave the office with [leave office]. Once you leave the office, you cannot come back.
   fact24^success^internet: |
-    Fact24 is the relevant system to share updates directly from management and the department heads.
-    The system shows that the power is down throughout the bank. Employees are advised to work from home.
+    Fact24 is the relevant system to share updates directly from management and the department heads. 
+    The system shows that the power is down throughout the bank. After a few seconds, you get an update
+    that the power will be restored within 2 min. You take this opportunity to relax in the news room.
 
-    You can leave the office with [leave office]. Once you leave the office, you cannot come back.
+    A screen mounted on the wall in the newsroom lights up, displaying the word 'Crisis!'.
+    You find yourself in a bustling company headquarters amidst a crisis. People are rushing around, 
+    trying to figure out the best course of action. The CEO walks into the room with different team members. 
+    The atmosphere is tense, and the urgency in the air is tangible. The CEO, a formidable figure, turns to you.
+    With a firm tone, the CEO start talking to you..
+
+    CEO: "We're in the midst of a crisis, and time is not our ally. We need a crisis management team, and we need it now. Who do you propose should be included in this team?"
+    The room falls silent, all eyes on you. The weight of the decision rests heavily on your shoulders. How will you respond?
+
+    1) Only senior executives and managers.
+    2) A cross-functional representation of employees from different departments.
+    3) Only employees with technical expertise in power systems.
+
 
 directions:
   n: adminoffice

@@ -5,5 +5,145 @@
     "user": "bd95c7145193bee022899e8b4d30bb88",
     "datetime": "28/12/2022 16:47:34",
     "message": "FIRST FEEDBACK"
+  },
+  {
+    "feedbackId": 2,
+    "room": "openoffice",
+    "user": "Al",
+    "datetime": "26/01/2023 18:30:04",
+    "message": "did not reply to message, the from address looks false as it contains the number 0 instead of letter O in address."
+  },
+  {
+    "feedbackId": 3,
+    "room": "trading",
+    "user": "Bradley",
+    "datetime": "26/01/2023 18:30:29",
+    "message": "input THE trading room is not far from IT Ops, you should be able to travel through each room."
+  },
+  {
+    "feedbackId": 4,
+    "room": "youroffice",
+    "user": "Max",
+    "datetime": "26/01/2023 18:31:17",
+    "message": "reason"
+  },
+  {
+    "feedbackId": 5,
+    "room": "trading",
+    "user": "Bradley",
+    "datetime": "26/01/2023 18:31:54",
+    "message": "input there is no way to scroll back up to see previous messages, right now i'm not sure what i'm doing because i've printed the map and now i can't see what i wAs pReviously doing. the only option is to go east and west over again"
+  },
+  {
+    "feedbackId": 6,
+    "room": "it",
+    "user": "Alprince",
+    "datetime": "26/01/2023 18:31:56",
+    "message": "badges should not be easily accesible. should be in a locked cabinet in my opinion"
+  },
+  {
+    "feedbackId": 7,
+    "room": "youroffice",
+    "user": "Bradley",
+    "datetime": "26/01/2023 18:38:15",
+    "message": "reason the email is @.g0v not @.gov"
+  },
+  {
+    "feedbackId": 8,
+    "room": "youroffice",
+    "user": "Brian Quigley",
+    "datetime": "26/01/2023 18:39:26",
+    "message": "Never send unencrypted reports by email"
+  },
+  {
+    "feedbackId": 9,
+    "room": "youroffice",
+    "user": "Alprince",
+    "datetime": "26/01/2023 18:39:49",
+    "message": "the email looks fishy with the authority word spelled strangely"
+  },
+  {
+    "feedbackId": 10,
+    "room": "youroffice",
+    "user": "Rula",
+    "datetime": "26/01/2023 18:40:20",
+    "message": "I had a previous experience with NYDFS asking for such confidential informtion to be sent over email"
+  },
+  {
+    "feedbackId": 11,
+    "room": "openoffice",
+    "user": "Alprince",
+    "datetime": "26/01/2023 18:41:37",
+    "message": "computers should be locked if unattended"
+  },
+  {
+    "feedbackId": 12,
+    "room": "openoffice",
+    "user": "Brian Quigley",
+    "datetime": "26/01/2023 18:42:02",
+    "message": "myabe give the option to lock the desk or place in shredder"
+  },
+  {
+    "feedbackId": 13,
+    "room": "adminoffice",
+    "user": "Alprince",
+    "datetime": "26/01/2023 18:44:48",
+    "message": "userid and passwords should not be left on note that is easily available for everyone to see"
+  },
+  {
+    "feedbackId": 14,
+    "room": "trainstation",
+    "user": "Bradley",
+    "datetime": "26/01/2023 18:46:18",
+    "message": "input  I think this method of selection an option is much more clear than having to type in look or map every few moments."
+  },
+  {
+    "feedbackId": 15,
+    "room": "newsroom",
+    "user": "Alprince",
+    "datetime": "26/01/2023 18:50:40",
+    "message": "twitter should not even be an option since it's not a credible source of information"
+  },
+  {
+    "feedbackId": 16,
+    "room": "home",
+    "user": "Bradley",
+    "datetime": "26/01/2023 18:51:30",
+    "message": "input there is an issue where i've gotten stuck. ALl 3 options were not allowed and now there is no way to view anything that i've recently gone through."
+  },
+  {
+    "feedbackId": 17,
+    "room": "adminoffice",
+    "user": "Al",
+    "datetime": "26/01/2023 18:53:45",
+    "message": "Originally I had logged out the session because I didn't think this was my user.  After roaming around I chose to change the password.  In the real world changing someone elses password would be wrong choice."
+  },
+  {
+    "feedbackId": 18,
+    "room": "it",
+    "user": "GOD",
+    "datetime": "27/01/2023 16:58:15",
+    "message": "input"
+  },
+  {
+    "feedbackId": 19,
+    "room": "it",
+    "user": "GOD",
+    "datetime": "27/01/2023 16:59:48",
+    "message": "fix the map so the directions are in the right location.  change the screen so it stops refreshing, and making the text blurry.  make it avilable outside the NLB network (maybe use azure authentication to get in).  allow scroll back on the screen so you can see what you have done.  keep the map in view at all times."
+  },
+  {
+    "feedbackId": 20,
+    "room": "youroffice",
+    "user": "GOD",
+    "datetime": "27/01/2023 17:02:54",
+    "message": "email address is not one from NYSDFS, (has zeros instead of letter o)"
+  },
+  {
+    "feedbackId": 21,
+    "room": "youroffice",
+    "user": "Laiba",
+    "datetime": "28/02/2023 10:19:34",
+    "message": "pagal"
   }
 ]

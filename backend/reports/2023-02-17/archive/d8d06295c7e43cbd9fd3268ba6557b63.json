@@ -1,0 +1,162 @@
+{
+    "adminoffice_loggedin": "true",
+    "adminoffice_password": "Nordlb@Floor20$",
+    "date_created": "2023-01-26 18:16:25",
+    "email_decided": "true",
+    "facing": "printer",
+    "inventory": {
+        "badge": "Your badge."
+    },
+    "location": "home",
+    "name": "Alprince",
+    "pile_on_desk": "false",
+    "tracking": {
+        "adminoffice": {
+            "changepassword": {
+                "fail": 0,
+                "name": "Replace simple passwords",
+                "success": true
+            },
+            "regex": {
+                "fail": 0,
+                "name": "Comply with password complexity",
+                "success": true
+            }
+        },
+        "gate": {
+            "enterbank": {
+                "fail": 0,
+                "name": "Use access badge for entry",
+                "success": true
+            }
+        },
+        "home": {
+            "printornot": {
+                "fail": 0,
+                "name": "Appropriate devices for remote access",
+                "success": true
+            }
+        },
+        "newsroom": {
+            "internet": {
+                "fail": 1,
+                "name": "Connect to the disaster communication system",
+                "success": true
+            }
+        },
+        "openoffice": {
+            "pile": {
+                "fail": 0,
+                "name": "Remove confidential data",
+                "success": true
+            }
+        },
+        "trainstation": {
+            "checkreport": {
+                "fail": 0,
+                "name": "Access confidential data in public",
+                "success": true
+            }
+        },
+        "youroffice": {
+            "email": {
+                "fail": 0,
+                "name": "Respond to phishing email",
+                "success": true
+            }
+        }
+    },
+    "username": "greenmeanmachine",
+    "visitcount": [
+        [
+            "gate",
+            1
+        ],
+        [
+            "skr",
+            0
+        ],
+        [
+            "adminoffice",
+            1
+        ],
+        [
+            "newsroom",
+            1
+        ],
+        [
+            "openoffice",
+            1
+        ],
+        [
+            "trainstation",
+            1
+        ],
+        [
+            "home",
+            1
+        ],
+        [
+            "reception",
+            1
+        ],
+        [
+            "trading",
+            1
+        ],
+        [
+            "youroffice",
+            1
+        ],
+        [
+            "it",
+            1
+        ]
+    ],
+    "visited": [
+        [
+            "gate",
+            true
+        ],
+        [
+            "skr",
+            false
+        ],
+        [
+            "adminoffice",
+            true
+        ],
+        [
+            "newsroom",
+            true
+        ],
+        [
+            "openoffice",
+            true
+        ],
+        [
+            "trainstation",
+            true
+        ],
+        [
+            "home",
+            "current"
+        ],
+        [
+            "reception",
+            true
+        ],
+        [
+            "trading",
+            true
+        ],
+        [
+            "youroffice",
+            true
+        ],
+        [
+            "it",
+            true
+        ]
+    ]
+}

@@ -6,9 +6,10 @@ const { GrinchBaseClient } = require("./grinchbase_grpc_web_pb")
 
 // Banner text
 const banner = `
-Welcome to the NLBS Game
--- Type 'help' to start --
--- Type 'look' to see where you are --
+Welcome to the NLBS Game v.1.2
+-- Type 'help' to start v.1.2 --
+-- Type 'look' to see where you are v.1.2--
+-- v.1.2 --
 `;
 
 function makeid() {
@@ -21,6 +22,7 @@ function makeid() {
 }
 
 var alldone = false;
+var reset = false;
 
 function texthandler(client, term, txt, outputfn) {
 	if (alldone) {
@@ -30,7 +32,13 @@ function texthandler(client, term, txt, outputfn) {
 		}, 3300)
 		return;
 	}
-
+	if (reset) {
+		document.body.classList.add("fadeout");
+		setTimeout(function () {
+			window.location = "/reset.html";
+		}, 3300)
+		return;
+	}
 	var cmd = new Command();
 	cmd.setText(txt);
 
@@ -46,6 +54,11 @@ function texthandler(client, term, txt, outputfn) {
 		if (response.getType() == "name") {
 			localStorage.setItem('name', response.getExtra());
 			alldone = true;
+			
+		}
+		if (response.getType() == "reset") {
+			localStorage.setItem('name', response.getExtra());
+			reset=true;
 		}
 	});
 }
@@ -66,7 +79,7 @@ const load = () => {
 
 	const term = terminal({
 		prompt: () => `$ / > `,
-		banner,
+		banner, 
 		handlefn: (txt, outputfn) => texthandler(client, term, txt, outputfn),
 	});
 };

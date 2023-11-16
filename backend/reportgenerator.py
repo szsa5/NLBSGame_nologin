@@ -182,6 +182,7 @@ class ReportGenerator:
         self.__number_of_rooms = self.get_number_of_rooms()
         self.__number_of_participants = self.get_number_of_participants()
     def generate_reports_individual(self):
+        path = './report/2023-02-17/archive'
         for f in os.listdir(self.__userdata_dir_path):
             if f.endswith(".json"):
                 datafile_path = os.path.join(self.__userdata_dir_path, f)

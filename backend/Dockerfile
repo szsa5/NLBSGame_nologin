@@ -1,7 +1,7 @@
 FROM ubuntu
 
 RUN apt-get update && apt-get -y install python3 python3-pip make
-RUN pip3 install grpcio-tools googleapis-common-protos pyyaml
+RUN pip3 install grpcio-tools googleapis-common-protos pyyaml requests Flask
 
 COPY ./grinchbase.proto /opt
 COPY ./backend/ /opt/backend

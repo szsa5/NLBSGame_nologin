@@ -139,6 +139,7 @@ class TBAG():
         self.loadState()
         self._youreheretext = "<you're here>"
         self.setName = False
+        self.setReset = False
 
     # State management
     def loadState(self):
@@ -221,10 +222,14 @@ class TBAG():
             now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             self._state["tracking"] = initialTracking
             self.setProperty("date_created", now)
+            self.setProperty("email", "dummy@example.com")
             self.setProperty("email_decided", "false")
             self.setProperty("adminoffice_loggedin", "false")
             self.setProperty("adminoffice_password", "admin")
+            self.setProperty("name","Dummy")
             self.setProperty("pile_on_desk", "true")
+            self.setProperty("player_id", 1)
+            self.setProperty("session_id", 1)
             self.setProperty("username", "greenmeanmachine")  # FIXME
 
     def saveState(self):
@@ -253,10 +258,11 @@ class TBAG():
     # Location & map
     @property
     def location(self):
-        return self.getProperty("location", default="gate")
+        return self.getProperty("location", default="login")
 
     def setLocation(self, loc):
         self.setProperty("location", loc)
+        self.setProperty("prev_loc",loc)
         self.roomSetVisited(loc)
         self.incrementVisitCount(loc)
 
@@ -264,14 +270,29 @@ class TBAG():
 
     def teleport(self, loc, admin=False, text=None):
         if admin == False:
-            if self.location == "trainstation" or self.location == "home":
+            if self.location == "trainstation" or self.location == "home" or self.location == "login":
                 return "You can't do that here."
 
         # reroute trading tp to entrance
         if loc == "trading":
             self.setLocation("tradingentrance")
+        elif loc == "reset":
+            self.setProperty("location", loc)
+            self.roomSetVisited(loc)
+            self.incrementVisitCount(loc)
         else:
             self.setLocation(loc)
+
+        newdesc = self.currentRoom().description()
+        desc = ""
+        if text is not None:
+            desc += text
+            desc += "\n\n"
+        desc += newdesc
+        return desc
+    
+    def after_login(self, loc, admin=False, text=None):
+        self.setLocation(loc)
 
         newdesc = self.currentRoom().description()
         desc = ""
@@ -721,9 +742,11 @@ if __name__ == "__main__":
 
     game = TBAG(fn)
 
+
     print()
-    print("Welcome to the game.".center(80))
-    print("-- Type 'help' to start --".center(80))
+    print("Welcome to the game. v.1.2".center(80))
+    print("-- Type 'help' to start v.1.2 --".center(80))
+    print("-- v.1.2 --".center(80))
     print()
 
     game.Login()

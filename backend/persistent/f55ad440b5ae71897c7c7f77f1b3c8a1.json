@@ -1,0 +1,96 @@
+{
+  "adminoffice_loggedin": "false",
+  "adminoffice_password": "admin",
+  "date_created": "2023-02-22 10:47:27",
+  "email": "hamza@gmail.com",
+  "email_decided": "false",
+  "location": "gate",
+  "facing": "otp",
+  "name": "Ali Khan",
+  "pile_on_desk": "true",
+  "player_id": 11,
+  "session_id": 18,
+  "tracking": {
+    "adminoffice": {
+      "changepassword": {
+        "fail": 0,
+        "name": "Replace simple passwords",
+        "success": false
+      },
+      "regex": {
+        "fail": 0,
+        "name": "Comply with password complexity",
+        "success": false
+      }
+    },
+    "gate": {
+      "enterbank": {
+        "fail": 0,
+        "name": "Use access badge for entry",
+        "success": false
+      }
+    },
+    "home": {
+      "printornot": {
+        "fail": 1,
+        "name": "Appropriate devices for remote access",
+        "success": true
+      }
+    },
+    "newsroom": {
+      "internet": {
+        "fail": 0,
+        "name": "Connect to the disaster communication system",
+        "success": true
+      }
+    },
+    "openoffice": {
+      "pile": {
+        "fail": 2,
+        "name": "Remove confidential data",
+        "success": true
+      }
+    },
+    "trainstation": {
+      "checkreport": {
+        "fail": 0,
+        "name": "Access confidential data in public",
+        "success": false
+      }
+    },
+    "youroffice": {
+      "email": {
+        "fail": 0,
+        "name": "Respond to phishing email",
+        "success": false
+      }
+    }
+  },
+  "username": "greenmeanmachine",
+  "visitcount": [
+    ["gate", 1],
+    ["skr", 0],
+    ["adminoffice", 0],
+    ["newsroom", 0],
+    ["openoffice", 2],
+    ["trainstation", 0],
+    ["home", 0],
+    ["reception", 1],
+    ["trading", 0],
+    ["youroffice", 0],
+    ["it", 0]
+  ],
+  "visited": [
+    ["gate", false],
+    ["skr", false],
+    ["adminoffice", false],
+    ["newsroom", false],
+    ["openoffice", true],
+    ["trainstation", false],
+    ["home", false],
+    ["reception", true],
+    ["trading", false],
+    ["youroffice", false],
+    ["it", false]
+  ]
+}

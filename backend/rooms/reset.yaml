@@ -1,0 +1,15 @@
+name: Reset
+description: |
+
+  Your game will be reset all your data will be saved
+  till now and new game will be started from the start
+
+
+  type
+  [reset game] to reset your game
+  type
+  [go back] to go back to gate
+
+items:
+  reset: |
+    reset
